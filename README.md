@@ -2,7 +2,7 @@
 
 A minimal black-and-red i3 desktop for Arch Linux, built for a laptop: low power use, no desktop environment, everything driven from the keyboard.
 
-![i3 desktop: fastfetch, htop and cmatrix tiled over the red Arch wallpaper, i3blocks bar at the bottom](screenshots/i3-desktop-red-arch-theme.png)
+![Morikai i3 desktop: fastfetch, htop and cmatrix tiled over the red Arch wallpaper, i3blocks bar at the bottom](screenshots/morikai-i3-desktop-red-arch.png)
 
 ## Features
 
