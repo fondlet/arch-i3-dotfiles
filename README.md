@@ -1,4 +1,4 @@
-# dotfiles
+# Arch i3 Dotfiles: Black & Red
 
 A minimal black-and-red i3 desktop for Arch Linux, built for a laptop: low power use, no desktop environment, everything driven from the keyboard.
 
@@ -56,7 +56,7 @@ A minimal black-and-red i3 desktop for Arch Linux, built for a laptop: low power
 sudo pacman -S --needed i3-wm i3blocks i3status i3lock xss-lock picom dunst rofi kitty feh \
   brightnessctl wireplumber libpulse playerctl acpi flameshot network-manager-applet dex xorg-xrandr \
   ttf-jetbrains-mono-nerd
-git clone https://github.com/fondlet/dotfiles.git ~/dotfiles
+git clone https://github.com/fondlet/arch-i3-dotfiles.git ~/dotfiles
 ~/dotfiles/install.sh
 ```
 
