@@ -1,0 +1,46 @@
+# i3blocks config file
+separator=true
+separator_block_width=15
+
+[spotify]
+label=󰓇 
+command=$HOME/.config/i3/script/spotify.sh
+color=#E64848
+interval=5
+
+[wifi]
+label=󰖩 
+command=nmcli -t -f active,ssid dev wifi | grep '^yes' | cut -d: -f2
+interval=10
+color=#E64848
+
+[ip]
+label=󰩠 
+command=ip addr | grep -E 'inet\s' | grep -v '127.0.0.1' | awk '{print $2}' | cut -d/ -f1 | head -n1
+interval=10
+color=#A0A0A0
+
+[battery]
+label=
+# Icon reflects actual charge level (battery.sh picks the matching Nerd Font glyph)
+command=$HOME/.config/i3/script/battery.sh
+interval=30
+color=#E64848
+
+[disk]
+label=󰋊 
+command=df -h / | awk '/\// {print $4}'
+interval=30
+color=#A0A0A0
+
+[memory]
+label=󰍛 
+command=free -h | awk '/Mem:/ {print $3}'
+interval=10
+color=#A0A0A0
+
+[time]
+label=󰅐 
+command=date '+%Y-%m-%d %I:%M %p'
+interval=5
+color=#E64848

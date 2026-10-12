@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Change screen brightness and show a dunst progress bar.
+# Usage: brightness-osd up|down
+STEP=5
+MIN=5
+DEV=intel_backlight
+
+cur=$(brightnessctl -m -d "$DEV" | awk -F, '{gsub("%","",$4); print $4}')
+
+case "$1" in
+    up)   brightnessctl -q -d "$DEV" set "$STEP%+" ;;
+    down) # never go fully black
+          if (( cur - STEP < MIN )); then
+              brightnessctl -q -d "$DEV" set "$MIN%"
+          else
+              brightnessctl -q -d "$DEV" set "$STEP%-"
+          fi ;;
+esac
+
+lvl=$(brightnessctl -m -d "$DEV" | awk -F, '{gsub("%","",$4); print $4}')
+
+# Nerd Font glyphs (md-brightness_5/6/7); red bar like the volume OSD
+if (( lvl < 34 )); then
+    icon=$'\U000F00DE'
+elif (( lvl < 67 )); then
+    icon=$'\U000F00DF'
+else
+    icon=$'\U000F00E0'
+fi
+color="#E64848"
+
+dunstify -a brightness -u normal -t 1500 \
+    -h string:x-dunst-stack-tag:brightness \
+    -h int:value:"$lvl" \
+    -h string:hlcolor:"$color" \
+    -h string:frcolor:"$color" \
+    "$icon  Brightness" "${lvl}%"
+
+exit 0

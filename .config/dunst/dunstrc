@@ -1,0 +1,53 @@
+# Red/black theme matching i3, rofi and kitty
+
+[global]
+    font = JetBrainsMono Nerd Font 11
+    origin = top-right
+    offset = (12, 36)
+    width = (0, 320)
+    padding = 10
+    horizontal_padding = 14
+    gap_size = 6
+    frame_width = 2
+    frame_color = "#E64848"
+    corner_radius = 6
+    separator_color = frame
+    background = "#000000"
+    foreground = "#FFFFFF"
+    highlight = "#E64848"
+    progress_bar_height = 8
+    progress_bar_frame_width = 0
+    progress_bar_corner_radius = 4
+    progress_bar_min_width = 260
+    progress_bar_max_width = 292
+    icon_position = off
+    markup = full
+    format = "<b>%s</b>\n%b"
+    alignment = left
+
+[urgency_low]
+    background = "#000000"
+    foreground = "#A0A0A0"
+    frame_color = "#161616"
+    timeout = 5
+
+[urgency_normal]
+    background = "#000000"
+    foreground = "#FFFFFF"
+    frame_color = "#E64848"
+    timeout = 8
+
+[urgency_critical]
+    background = "#B03030"
+    foreground = "#FFFFFF"
+    frame_color = "#E64848"
+    timeout = 0
+
+# Volume OSD (sent by ~/.local/bin/volume-osd)
+[volume]
+    appname = volume
+    format = "<b>%s</b>  <span foreground='#A0A0A0'>%b</span>"
+    foreground = "#FFFFFF"
+    frame_color = "#E64848"
+    highlight = "#E64848"
+    history_ignore = yes

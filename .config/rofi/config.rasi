@@ -1,0 +1,110 @@
+configuration {
+    modes: "drun,run,window";
+    font: "JetBrainsMono Nerd Font 11";
+    show-icons: true;
+    icon-theme: "Papirus-Dark";
+    drun-display-format: "{name}";
+    display-drun: " Apps";
+    display-run: " Run";
+    display-window: " Windows";
+}
+
+* {
+    bg:          #000000;
+    bg-alt:      #0D0D0D;
+    bg-element:  #161616;
+    fg:          #A0A0A0;
+    fg-active:   #FFFFFF;
+    red:         #E64848;
+    red-dark:    #B03030;
+    border-col:  #E64848;
+    transparent: #00000000;
+}
+
+window {
+    background-color: @bg;
+    border:           2px solid;
+    border-color:     @border-col;
+    border-radius:    6px;
+    width:            500px;
+    padding:          8px;
+}
+
+mainbox {
+    background-color: @transparent;
+    children:         [inputbar, listview];
+    spacing:          8px;
+    padding:          8px;
+}
+
+inputbar {
+    background-color: @bg-element;
+    border:           0px 0px 1px 0px;
+    border-color:     @red;
+    border-radius:    4px;
+    padding:          8px 10px;
+    children:         [prompt, entry];
+    spacing:          6px;
+}
+
+prompt {
+    background-color: @transparent;
+    text-color:       @red;
+    font:             "JetBrainsMono Nerd Font Bold 11";
+}
+
+entry {
+    background-color: @transparent;
+    text-color:       @fg-active;
+    placeholder:      "Search...";
+    placeholder-color: @fg;
+}
+
+listview {
+    background-color: @transparent;
+    lines:            8;
+    columns:          1;
+    spacing:          2px;
+    scrollbar:        false;
+}
+
+element {
+    background-color: @transparent;
+    text-color:       @fg;
+    border-radius:    4px;
+    padding:          6px 10px;
+    spacing:          8px;
+}
+
+element normal.normal {
+    background-color: @transparent;
+    text-color:       @fg;
+}
+
+element selected.normal {
+    background-color: @red;
+    text-color:       #000000;
+}
+
+element alternate.normal {
+    background-color: @bg-alt;
+    text-color:       @fg;
+}
+
+element-icon {
+    size:             24px;
+    background-color: @transparent;
+}
+
+element-text {
+    background-color: @transparent;
+    text-color:       inherit;
+    vertical-align:   0.5;
+}
+
+scrollbar {
+    background-color: @bg-element;
+    handle-color:     @red;
+    handle-width:     4px;
+    border:           0;
+}

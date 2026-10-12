@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Change volume via PipeWire and show a dunst progress bar.
+# Usage: volume-osd up|down|mute
+STEP=5%
+SINK=@DEFAULT_AUDIO_SINK@
+
+case "$1" in
+    up)   wpctl set-mute "$SINK" 0; wpctl set-volume -l 1.0 "$SINK" "$STEP+" ;;
+    down) wpctl set-volume "$SINK" "$STEP-" ;;
+    mute) wpctl set-mute "$SINK" toggle ;;
+esac
+
+out=$(wpctl get-volume "$SINK")             # e.g. "Volume: 0.45 [MUTED]"
+vol=$(awk '{printf "%d", $2 * 100 + 0.5}' <<<"$out")
+
+# Nerd Font glyphs; red bar normally, grey bar + border when muted
+color="#E64848"
+if [[ $out == *MUTED* ]]; then
+    icon=$'\U000F075F'; text="Muted"; color="#A0A0A0"
+elif (( vol == 0 )); then
+    icon=$'\U000F0581'; text="Volume"
+elif (( vol < 34 )); then
+    icon=$'\U000F057F'; text="Volume"
+elif (( vol < 67 )); then
+    icon=$'\U000F0580'; text="Volume"
+else
+    icon=$'\U000F057E'; text="Volume"
+fi
+
+dunstify -a volume -u normal -t 1500 \
+    -h string:x-dunst-stack-tag:volume \
+    -h int:value:"$vol" \
+    -h string:hlcolor:"$color" \
+    -h string:frcolor:"$color" \
+    "$icon  $text" "${vol}%"
+
+pkill -RTMIN+10 i3blocks 2>/dev/null
+killall -SIGUSR1 i3status 2>/dev/null
+exit 0
