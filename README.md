@@ -11,7 +11,7 @@ A Cyberpunk 2077-styled i3 desktop for Arch Linux, built for a laptop: low power
   - **Daemon:** cyan and red on deep navy, after [MathisP75/daemon-dotfiles](https://github.com/MathisP75/daemon-dotfiles)
   - **Arasaka:** corporate red with yellow alarms, after [ARCANGEL0/CyberArch-Shell](https://github.com/ARCANGEL0/CyberArch-Shell)
 
-  One switch recolours i3, the bar, rofi, dunst, kitty, GTK apps, the lock screen and the OSDs, and reloads whatever is running.
+  One switch recolours i3, the bar, rofi, dunst, kitty, GTK apps, the lock screen and the OSDs, swaps the wallpaper, and reloads whatever is running.
 - **GTK theme.** GTK 3 and 4 apps (file pickers, Nautilus, libadwaita apps) get a CSS layer on top of Adwaita-dark in the active palette.
 - **Kill mode.** `$mod+Shift+x` turns the cursor into a crosshair. Click a window and its process gets SIGTERM, then SIGKILL if it hangs on. A click on the desktop cancels.
 - **Street cred.** An optional pacman hook pops a notification for every package you install.
@@ -20,7 +20,7 @@ A Cyberpunk 2077-styled i3 desktop for Arch Linux, built for a laptop: low power
 - **On-screen indicators for brightness and volume.** The function keys show a dunst popup with a progress bar.
 - **Kitty extras.** A neon trail follows the cursor when it jumps, and the tabs have slanted edges like the in-game panels.
 - **Automatic screen lock.** `xss-lock` runs a themed `i3lock-color` before suspend. While locked, it switches to the power-saver profile, pauses media and blanks the screen.
-- **Startup apps.** Polish keyboard layout, the NetworkManager tray icon, flameshot for screenshots, and the wallpaper set by feh.
+- **Startup apps.** Polish keyboard layout, the NetworkManager tray icon, flameshot for screenshots, and the palette's wallpaper set by feh.
 
 ## Keybindings
 
@@ -61,6 +61,16 @@ Each palette is one shell file in `.config/netrunner/themes/` that sets about a 
 | `~/.config/gtk-3.0/gtk.css`, `~/.config/gtk-4.0/gtk.css` | GTK apps |
 | `~/.config/netrunner/current/colors.sh` | lock screen, volume and brightness OSDs |
 
+`NR_WALLPAPER` in the theme file names an image in `~/Pictures/wallpapers`. The switcher points `~/.config/netrunner/current/wallpaper` at it, and i3 loads that link at login.
+
+| Palette | Wallpaper |
+|---|---|
+| Netrunner | `netrunner-4k.png`, a breach protocol HUD |
+| Daemon | `daemon-hongkong-4k.jpg`, Garden Hill, Hong Kong, by [Chi Hung Wong](https://unsplash.com/photos/jODJ4np77W8) (cropped to 16:9) |
+| Arasaka | `arasaka-shibuya-4k.jpg`, Udagawacho, Shibuya, by [ayumi kubo](https://unsplash.com/photos/cbwlHckGxAk) (cropped to 16:9) |
+
+Both photos are used under the [Unsplash License](https://unsplash.com/license).
+
 The rendered files stay out of the repo, so switching palettes leaves `git status` clean. To make a new palette, copy a theme file, change the colours and run `netrunner-theme <name>`. From a terminal:
 
 ```sh
@@ -84,7 +94,7 @@ Open GTK apps and rofi pick up the new colours the next time they start. Everyth
 | `.config/gtk-3.0/`, `.config/gtk-4.0/` | GTK dark mode settings |
 | `.local/bin/` | Palette switcher, kill mode, brightness and volume OSD scripts |
 | `extras/pacman/` | Optional pacman hook (needs root, not linked by `install.sh`) |
-| `.fehbg`, `Pictures/wallpapers/` | Wallpaper |
+| `Pictures/wallpapers/` | One wallpaper per palette |
 | `screenshots/` | Preview images |
 
 ## Install

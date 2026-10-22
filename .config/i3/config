@@ -26,7 +26,7 @@ exec --no-startup-id nm-applet
 exec_always --no-startup-id setxkbmap -layout pl -variant "" -option "" -option terminate:ctrl_alt_bksp
 exec --no-startup-id xrandr --auto
 exec --no-startup-id flameshot
-exec --no-startup-id ~/.fehbg
+exec --no-startup-id feh --no-fehbg --bg-fill ~/.config/netrunner/current/wallpaper
 exec --no-startup-id picom --config ~/.config/picom/picom.conf -b
 
 # Use pactl to adjust volume in PulseAudio.

@@ -1,3 +1,0 @@
-#!/bin/sh
-# previous: feh --no-fehbg --bg-fill '/home/Morika1/Pictures/wallpapers/pilchowo/pilchowo-4k.png'
-feh --no-fehbg --bg-fill '/home/Morika1/Pictures/wallpapers/netrunner-4k.png'

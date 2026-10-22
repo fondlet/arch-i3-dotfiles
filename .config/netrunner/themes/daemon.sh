@@ -1,5 +1,6 @@
 # Daemon: after MathisP75's KDE rice. Cold cyan on deep navy, red highlights.
 NR_NAME="DAEMON"
+NR_WALLPAPER="daemon-hongkong-4k.jpg"   # Chi Hung Wong, Unsplash
 NR_BG="#070D1A"
 NR_BG_PANEL="#111E29"
 NR_BG_ROW="#1A2B3C"

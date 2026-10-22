@@ -79,6 +79,14 @@ render_gtk gtk-4.0
 cp "$themes/$name.sh" "$out/colors.sh"
 echo "$name" >"$out/name"
 
+# i3 sets the wallpaper at login from this link
+wp=$HOME/Pictures/wallpapers/${NR_WALLPAPER:-}
+if [[ -n ${NR_WALLPAPER:-} && -f $wp ]]; then
+    ln -sfn "$wp" "$out/wallpaper"
+else
+    echo "netrunner-theme: wallpaper '${NR_WALLPAPER:-}' not in ~/Pictures/wallpapers, keeping the last one" >&2
+fi
+
 # libadwaita apps ignore settings.ini and ask the portal for a colour scheme
 if command -v gsettings >/dev/null; then
     gsettings set org.gnome.desktop.interface color-scheme prefer-dark 2>/dev/null || true
@@ -90,6 +98,7 @@ fi
 i3-msg -q reload 2>/dev/null || true       # also restarts i3bar and i3blocks
 dunstctl reload 2>/dev/null || true
 pkill -USR1 -x kitty 2>/dev/null || true   # kitty re-reads kitty.conf on SIGUSR1
+[[ -e $out/wallpaper ]] && feh --no-fehbg --bg-fill "$out/wallpaper"
 
 dunstify -a netrunner -t 3000 -h string:x-dunst-stack-tag:netrunner \
     "PALETTE LOADED" "$NR_NAME" 2>/dev/null || true
