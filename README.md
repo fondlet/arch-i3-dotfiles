@@ -65,11 +65,11 @@ Each palette is one shell file in `.config/netrunner/themes/` that sets about a 
 
 | Palette | Wallpaper |
 |---|---|
-| Netrunner | `netrunner-4k.png`, a breach protocol HUD |
+| Netrunner | `netrunner-datastream-4k.jpg`, fibre data streams by [Luke Jones](https://unsplash.com/photos/tBvF46kmwBw), graded to acid yellow on black |
 | Daemon | `daemon-hongkong-4k.jpg`, Garden Hill, Hong Kong, by [Chi Hung Wong](https://unsplash.com/photos/jODJ4np77W8) (cropped to 16:9) |
-| Arasaka | `arasaka-shibuya-4k.jpg`, Udagawacho, Shibuya, by [ayumi kubo](https://unsplash.com/photos/cbwlHckGxAk) (cropped to 16:9) |
+| Arasaka | `arasaka-tower-4k.jpg`, "Neon knight" by [Giancarlo Corti](https://unsplash.com/photos/GiQ9Yck2h3E) (cropped to 16:9) |
 
-Both photos are used under the [Unsplash License](https://unsplash.com/license).
+All three are used under the [Unsplash License](https://unsplash.com/license). `netrunner-4k.png` and `arch-cat-4k.png` are spares.
 
 The rendered files stay out of the repo, so switching palettes leaves `git status` clean. To make a new palette, copy a theme file, change the colours and run `netrunner-theme <name>`. From a terminal:
 

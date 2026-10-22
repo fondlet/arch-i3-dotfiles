@@ -1,6 +1,6 @@
 # Arasaka: after ARCANGEL0's CyberArch shell. Corporate red on black, yellow alarms.
 NR_NAME="ARASAKA"
-NR_WALLPAPER="arasaka-shibuya-4k.jpg"   # ayumi kubo, Unsplash
+NR_WALLPAPER="arasaka-tower-4k.jpg"   # Giancarlo Corti, Unsplash
 NR_BG="#080002"
 NR_BG_PANEL="#12050A"
 NR_BG_ROW="#2A0B12"

@@ -1,6 +1,6 @@
 # Netrunner: Cyberpunk 2077 breach protocol. Acid yellow on navy, cyan readouts.
 NR_NAME="NETRUNNER"
-NR_WALLPAPER="netrunner-4k.png"   # in ~/Pictures/wallpapers
+NR_WALLPAPER="netrunner-datastream-4k.jpg"   # Luke Jones, Unsplash, graded to the palette
 NR_BG="#0A0B10"            # window background, text on a solid accent
 NR_BG_PANEL="#10131A"      # raised panels, input fields
 NR_BG_ROW="#1F2430"        # selected rows, inactive borders
