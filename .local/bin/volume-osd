@@ -13,18 +13,18 @@ esac
 out=$(wpctl get-volume "$SINK")             # e.g. "Volume: 0.45 [MUTED]"
 vol=$(awk '{printf "%d", $2 * 100 + 0.5}' <<<"$out")
 
-# Nerd Font glyphs; red bar normally, grey bar + border when muted
-color="#E64848"
+# Nerd Font glyphs; acid-yellow bar normally, olive bar + border when muted
+color="#D0ED57"
 if [[ $out == *MUTED* ]]; then
-    icon=$'\U000F075F'; text="Muted"; color="#A0A0A0"
+    icon=$'\U000F075F'; text="MUTED"; color="#6B7A2E"
 elif (( vol == 0 )); then
-    icon=$'\U000F0581'; text="Volume"
+    icon=$'\U000F0581'; text="VOLUME"
 elif (( vol < 34 )); then
-    icon=$'\U000F057F'; text="Volume"
+    icon=$'\U000F057F'; text="VOLUME"
 elif (( vol < 67 )); then
-    icon=$'\U000F0580'; text="Volume"
+    icon=$'\U000F0580'; text="VOLUME"
 else
-    icon=$'\U000F057E'; text="Volume"
+    icon=$'\U000F057E'; text="VOLUME"
 fi
 
 dunstify -a volume -u normal -t 1500 \

@@ -18,6 +18,9 @@ text=$(printf '%s' "$text" | awk -v max="$max_len" '{
     else print $0
 }')
 
+# i3blocks renders this as pango markup, so escape &, < and >
+text=$(printf '%s' "$text" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')
+
 if [ "$status" = "Paused" ]; then
     printf '%s %s\n' "" "$text"
 else

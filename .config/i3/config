@@ -5,7 +5,7 @@
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 8
+font pango:Iosevka Nerd Font Bold 9
 
 # Use the Windows key (Mod4) as the main modifier.
 set $mod Mod4
@@ -177,35 +177,46 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Window border colors, matching the rofi/bar red-black theme
+# Netrunner theme: window frames styled after the Cyberpunk 2077 breach
+# protocol HUD. The focused title bar is a solid acid-yellow strip like the
+# CODE MATRIX panel header; everything else sinks into olive/navy.
 # class                   border  backgr. text    indicator child_border
-client.focused            #E64848 #000000 #FFFFFF #E64848   #E64848
-client.focused_inactive   #161616 #000000 #A0A0A0 #161616   #161616
-client.unfocused          #0D0D0D #000000 #A0A0A0 #0D0D0D   #0D0D0D
-client.urgent             #B03030 #B03030 #FFFFFF #B03030   #B03030
-client.placeholder        #000000 #000000 #A0A0A0 #000000   #000000
-client.background         #000000
+client.focused            #D0ED57 #D0ED57 #0A0B10 #5EF6FF   #D0ED57
+client.focused_inactive   #2C3318 #10131A #6B7A2E #2C3318   #2C3318
+client.unfocused          #1F2430 #0A0B10 #6B7A2E #1F2430   #1F2430
+client.urgent             #FF2A4D #FF2A4D #0A0B10 #FF2A4D   #FF2A4D
+client.placeholder        #0A0B10 #0A0B10 #6B7A2E #0A0B10   #0A0B10
+client.background         #0A0B10
 
-# Start i3bar to display a workspace bar (i3blocks, matching the configured
-# theme in ~/.config/i3blocks/config and the rofi color scheme)
+default_border normal 1
+default_floating_border normal 1
+title_align left
+for_window [all] title_format "<b>//</b> %title"
+for_window [all] title_window_icon off
+gaps inner 6
+gaps outer 2
+
+# Start i3bar to display a workspace bar (i3blocks, matching the netrunner
+# theme in ~/.config/i3blocks/config and rofi)
 bar {
         status_command i3blocks
         position bottom
         tray_output primary
-        font pango:JetBrainsMono Nerd Font 10
-        height 22
+        font pango:Iosevka Nerd Font Bold 10
+        height 24
         workspace_min_width 36
+        separator_symbol " ⁄⁄ "
 
         colors {
-                background #000000
-                statusline #A0A0A0
-                separator  #0D0D0D
+                background #0A0B10
+                statusline #D0ED57
+                separator  #2C3318
 
-                focused_workspace  #E64848 #E64848 #FFFFFF
-                active_workspace   #161616 #161616 #A0A0A0
-                inactive_workspace #000000 #000000 #A0A0A0
-                urgent_workspace   #B03030 #B03030 #FFFFFF
-                binding_mode       #B03030 #B03030 #FFFFFF
+                focused_workspace  #D0ED57 #D0ED57 #0A0B10
+                active_workspace   #6B7A2E #10131A #D0ED57
+                inactive_workspace #0A0B10 #0A0B10 #6B7A2E
+                urgent_workspace   #FF2A4D #FF2A4D #0A0B10
+                binding_mode       #5EF6FF #0A0B10 #5EF6FF
         }
 }
 

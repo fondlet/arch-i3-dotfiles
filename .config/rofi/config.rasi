@@ -1,110 +1,210 @@
+// Netrunner theme: Cyberpunk 2077 breach-protocol look, shared with i3,
+// i3blocks, dunst, kitty and the lock screen.
+
 configuration {
     modes: "drun,run,window";
-    font: "JetBrainsMono Nerd Font 11";
+    font: "Iosevka Nerd Font 12";
     show-icons: true;
     icon-theme: "Papirus-Dark";
     drun-display-format: "{name}";
-    display-drun: " Apps";
-    display-run: " Run";
-    display-window: " Windows";
+    display-drun: "APPS";
+    display-run: "RUN";
+    display-window: "WINDOWS";
 }
 
 * {
-    bg:          #000000;
-    bg-alt:      #0D0D0D;
-    bg-element:  #161616;
-    fg:          #A0A0A0;
-    fg-active:   #FFFFFF;
-    red:         #E64848;
-    red-dark:    #B03030;
-    border-col:  #E64848;
+    bg:          #0A0B10;
+    bg-panel:    #10131A;
+    bg-row:      #1F2430;
+    yellow:      #D0ED57;
+    yellow-dim:  #6B7A2E;
+    yellow-dark: #2C3318;
+    cyan:        #5EF6FF;
+    red:         #FF2A4D;
     transparent: #00000000;
+
+    background-color: @transparent;
+    text-color:       @yellow;
 }
 
 window {
     background-color: @bg;
-    border:           2px solid;
-    border-color:     @border-col;
-    border-radius:    6px;
-    width:            500px;
-    padding:          8px;
+    border:           1px;
+    border-color:     @yellow;
+    border-radius:    0;
+    width:            620px;
+    padding:          0;
 }
 
 mainbox {
-    background-color: @transparent;
-    children:         [inputbar, listview];
-    spacing:          8px;
-    padding:          8px;
+    children: [header, body, footer];
+    spacing:  0;
+}
+
+// Solid yellow strip, like the CODE MATRIX / SEQUENCE panel titles
+header {
+    orientation:      horizontal;
+    children:         [textbox-title, textbox-tag];
+    background-color: @yellow;
+    padding:          6px 14px;
+    expand:           false;
+}
+
+textbox-title {
+    content:    "//  APP MANAGER";
+    font:       "Iosevka Nerd Font Bold 12";
+    text-color: @bg;
+    expand:     true;
+}
+
+textbox-tag {
+    content:        "NET_ARCH :: MORIKAI";
+    font:           "Iosevka Nerd Font 9";
+    text-color:     @bg;
+    expand:         false;
+    vertical-align: 0.5;
+}
+
+body {
+    orientation: vertical;
+    children:    [inputbar, mode-switcher, listview];
+    padding:     14px;
+    spacing:     12px;
 }
 
 inputbar {
-    background-color: @bg-element;
-    border:           0px 0px 1px 0px;
-    border-color:     @red;
-    border-radius:    4px;
-    padding:          8px 10px;
-    children:         [prompt, entry];
-    spacing:          6px;
+    children:         [prompt, textbox-sep, entry, num-filtered-rows];
+    background-color: @bg-panel;
+    border:           1px;
+    border-color:     @yellow-dim;
+    padding:          8px 12px;
+    spacing:          10px;
 }
 
 prompt {
-    background-color: @transparent;
-    text-color:       @red;
-    font:             "JetBrainsMono Nerd Font Bold 11";
+    font:       "Iosevka Nerd Font Bold 12";
+    text-color: @yellow;
+}
+
+textbox-sep {
+    expand:     false;
+    content:    "▸";
+    text-color: @yellow-dim;
 }
 
 entry {
-    background-color: @transparent;
-    text-color:       @fg-active;
-    placeholder:      "Search...";
-    placeholder-color: @fg;
+    text-color:        @yellow;
+    cursor-color:      @cyan;
+    cursor-width:      8px;
+    placeholder:       "ENTER SEQUENCE...";
+    placeholder-color: @yellow-dim;
+}
+
+num-filtered-rows {
+    text-color: @yellow-dim;
+    font:       "Iosevka Nerd Font 10";
+}
+
+mode-switcher {
+    spacing: 8px;
+}
+
+button {
+    padding:      3px 10px;
+    border:       1px;
+    border-color: @yellow-dark;
+    text-color:   @yellow-dim;
+    font:         "Iosevka Nerd Font 10";
+}
+
+button selected {
+    background-color: @yellow-dark;
+    border-color:     @yellow;
+    text-color:       @yellow;
 }
 
 listview {
-    background-color: @transparent;
-    lines:            8;
-    columns:          1;
-    spacing:          2px;
-    scrollbar:        false;
+    lines:        9;
+    columns:      1;
+    spacing:      2px;
+    scrollbar:    true;
+    fixed-height: true;
+    border:       1px 0 0 0;
+    border-color: @yellow-dark;
+    padding:      8px 0 0 0;
 }
 
 element {
-    background-color: @transparent;
-    text-color:       @fg;
-    border-radius:    4px;
-    padding:          6px 10px;
-    spacing:          8px;
+    padding:      7px 12px;
+    spacing:      12px;
+    border:       0 0 0 3px;
+    border-color: @transparent;
+    text-color:   @yellow;
 }
 
-element normal.normal {
-    background-color: @transparent;
-    text-color:       @fg;
-}
-
-element selected.normal {
-    background-color: @red;
-    text-color:       #000000;
-}
-
+element normal.normal,
 element alternate.normal {
-    background-color: @bg-alt;
-    text-color:       @fg;
+    background-color: @transparent;
+    text-color:       @yellow;
+}
+
+// Selected row: the grey-blue band from the code matrix, with a yellow tick
+element selected.normal {
+    background-color: @bg-row;
+    border-color:     @yellow;
+    text-color:       @yellow;
+}
+
+element normal.active,
+element alternate.active {
+    text-color: @cyan;
+}
+
+element selected.active {
+    background-color: @bg-row;
+    border-color:     @cyan;
+    text-color:       @cyan;
+}
+
+element normal.urgent,
+element alternate.urgent,
+element selected.urgent {
+    text-color: @red;
 }
 
 element-icon {
-    size:             24px;
-    background-color: @transparent;
+    size: 22px;
 }
 
 element-text {
-    background-color: @transparent;
-    text-color:       inherit;
-    vertical-align:   0.5;
+    text-color:     inherit;
+    highlight:      bold #5EF6FF;
+    vertical-align: 0.5;
 }
 
 scrollbar {
-    background-color: @bg-element;
-    handle-color:     @red;
-    handle-width:     4px;
-    border:           0;
+    handle-color:     @yellow;
+    handle-width:     3px;
+    background-color: @yellow-dark;
 }
+
+footer {
+    orientation:  horizontal;
+    children:     [textbox-nav, textbox-run, textbox-mode, textbox-close];
+    border:       1px 0 0 0;
+    border-color: @yellow-dark;
+    padding:      7px 14px;
+    spacing:      18px;
+    expand:       false;
+}
+
+textbox-nav, textbox-run, textbox-mode, textbox-close {
+    font:       "Iosevka Nerd Font 9";
+    text-color: @yellow-dim;
+    expand:     false;
+}
+
+textbox-nav   { content: "[↑↓] NAVIGATE"; }
+textbox-run   { content: "[⏎] EXECUTE"; }
+textbox-mode  { content: "[CTRL+TAB] MODE"; }
+textbox-close { content: "[ESC] CLOSE"; }

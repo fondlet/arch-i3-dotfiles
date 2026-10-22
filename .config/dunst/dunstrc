@@ -1,53 +1,66 @@
-# Red/black theme matching i3, rofi and kitty
+# Netrunner theme (Cyberpunk 2077 breach protocol), matching i3, rofi and kitty
 
 [global]
-    font = JetBrainsMono Nerd Font 11
+    font = Iosevka Nerd Font 11
     origin = top-right
-    offset = (12, 36)
-    width = (0, 320)
+    offset = (14, 14)
+    width = (280, 360)
     padding = 10
     horizontal_padding = 14
-    gap_size = 6
-    frame_width = 2
-    frame_color = "#E64848"
-    corner_radius = 6
+    text_icon_padding = 12
+    gap_size = 8
+    frame_width = 1
+    frame_color = "#D0ED57"
+    corner_radius = 0
     separator_color = frame
-    background = "#000000"
-    foreground = "#FFFFFF"
-    highlight = "#E64848"
-    progress_bar_height = 8
-    progress_bar_frame_width = 0
-    progress_bar_corner_radius = 4
-    progress_bar_min_width = 260
-    progress_bar_max_width = 292
-    icon_position = off
+    background = "#0A0B10"
+    foreground = "#D0ED57"
+    highlight = "#D0ED57"
+    progress_bar_height = 6
+    progress_bar_frame_width = 1
+    progress_bar_corner_radius = 0
+    progress_bar_min_width = 250
+    progress_bar_max_width = 330
+    icon_position = left
+    min_icon_size = 0
+    max_icon_size = 40
     markup = full
-    format = "<b>%s</b>\n%b"
+    # Small olive app tag above the summary, like the panel captions in the HUD
+    format = "<span size='small' foreground='#6B7A2E'>// %a</span>\n<b>%s</b>\n<span foreground='#C8D49A'>%b</span>"
     alignment = left
+    ellipsize = end
+    show_age_threshold = 60
+    mouse_left_click = do_action, close_current
+    mouse_right_click = close_all
 
 [urgency_low]
-    background = "#000000"
-    foreground = "#A0A0A0"
-    frame_color = "#161616"
+    background = "#0A0B10"
+    foreground = "#8F9C5A"
+    frame_color = "#2C3318"
+    highlight = "#6B7A2E"
     timeout = 5
 
 [urgency_normal]
-    background = "#000000"
-    foreground = "#FFFFFF"
-    frame_color = "#E64848"
+    background = "#0A0B10"
+    foreground = "#D0ED57"
+    frame_color = "#D0ED57"
     timeout = 8
 
 [urgency_critical]
-    background = "#B03030"
-    foreground = "#FFFFFF"
-    frame_color = "#E64848"
+    background = "#1A070C"
+    foreground = "#FF2A4D"
+    frame_color = "#FF2A4D"
+    highlight = "#FF2A4D"
+    format = "<span size='small' foreground='#FF2A4D'>// ALERT :: %a</span>\n<b>%s</b>\n<span foreground='#FFB3BF'>%b</span>"
     timeout = 0
 
-# Volume OSD (sent by ~/.local/bin/volume-osd)
+# Volume and brightness OSDs (sent by ~/.local/bin/volume-osd and brightness-osd)
 [volume]
     appname = volume
-    format = "<b>%s</b>  <span foreground='#A0A0A0'>%b</span>"
-    foreground = "#FFFFFF"
-    frame_color = "#E64848"
-    highlight = "#E64848"
+    format = "<span size='small' foreground='#6B7A2E'>// SYS.AUDIO_OUT</span>\n<b>%s</b>  <span foreground='#5EF6FF'>%b</span>"
+    history_ignore = yes
+
+[brightness]
+    appname = brightness
+    format = "<span size='small' foreground='#6B7A2E'>// SYS.DISPLAY</span>\n<b>%s</b>  <span foreground='#5EF6FF'>%b</span>"
     history_ignore = yes
