@@ -185,17 +185,10 @@ bindsym $mod+r mode "resize"
 
 # Window frames styled after the Cyberpunk 2077 breach protocol HUD. The
 # focused title bar is a solid accent strip like the CODE MATRIX panel header;
-# everything else sinks into the dim tones. Colours come from the active
-# palette ($mod+t, or netrunner-theme <name>), rendered into this include.
+# everything else sinks into the dim tones. The window colours and the bar {}
+# block come from the active palette ($mod+t, or netrunner-theme <name>),
+# rendered into this include.
 include ~/.config/netrunner/current/i3.conf
-
-# class                   border          backgr.         text            indicator       child_border
-client.focused            $nr_accent      $nr_accent      $nr_bg          $nr_hi          $nr_accent
-client.focused_inactive   $nr_accent_dark $nr_bg_panel    $nr_accent_dim  $nr_accent_dark $nr_accent_dark
-client.unfocused          $nr_bg_row      $nr_bg          $nr_accent_dim  $nr_bg_row      $nr_bg_row
-client.urgent             $nr_alert       $nr_alert       $nr_bg          $nr_alert       $nr_alert
-client.placeholder        $nr_bg          $nr_bg          $nr_accent_dim  $nr_bg          $nr_bg
-client.background         $nr_bg
 
 default_border normal 1
 default_floating_border normal 1
@@ -205,29 +198,6 @@ for_window [all] title_window_icon off
 gaps inner 6
 gaps outer 2
 
-# Start i3bar to display a workspace bar. netrunner-theme renders the i3blocks
-# config from ~/.config/netrunner/templates/i3blocks.conf.
-bar {
-        status_command i3blocks -c ~/.config/netrunner/current/i3blocks.conf
-        position bottom
-        tray_output primary
-        font pango:Iosevka Nerd Font Bold 10
-        height 24
-        workspace_min_width 36
-        separator_symbol " ⁄⁄ "
-
-        colors {
-                background $nr_bg
-                statusline $nr_accent
-                separator  $nr_accent_dark
-
-                focused_workspace  $nr_accent     $nr_accent   $nr_bg
-                active_workspace   $nr_accent_dim $nr_bg_panel $nr_accent
-                inactive_workspace $nr_bg         $nr_bg       $nr_accent_dim
-                urgent_workspace   $nr_alert      $nr_alert    $nr_bg
-                binding_mode       $nr_hi         $nr_bg       $nr_hi
-        }
-}
 
 # Brightness and display keys
 bindsym F7 exec --no-startup-id ~/.local/bin/brightness-osd up
