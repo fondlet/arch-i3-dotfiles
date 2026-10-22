@@ -1,0 +1,33 @@
+#!/bin/sh
+# pacman PostTransaction hook: pops a "street cred" notification in every logged-in
+# desktop session after packages are installed. pacman passes the package names on
+# stdin (NeedsTargets).
+#
+# Install it as a root-owned copy in /usr/local/bin, never as a symlink into $HOME:
+# pacman runs it as root, so a script your user can edit is a root shell for
+# anything running as your user.
+
+pkgs=$(awk 'NF')
+[ -n "$pkgs" ] || exit 0
+
+n=$(printf '%s\n' "$pkgs" | wc -l)
+first=$(printf '%s\n' "$pkgs" | head -n 1)
+if [ "$n" -eq 1 ]; then
+    title="$(printf '%s' "$first" | tr 'a-z' 'A-Z') INSTALLED"
+    body=$(pacman -Q "$first" 2>/dev/null | awk '{print "version " $2}')
+else
+    title="$n PACKAGES INSTALLED"
+    body=$(printf '%s\n' "$pkgs" | head -n 4 | paste -sd ' ')
+    [ "$n" -gt 4 ] && body="$body +$((n - 4)) more"
+fi
+
+for bus in /run/user/*/bus; do
+    [ -S "$bus" ] || continue
+    uid=$(stat -c %u "$bus")
+    [ "$uid" -ge 1000 ] || continue
+    user=$(id -nu "$uid") || continue
+    # timeout: a wedged session bus must not hang pacman
+    timeout 3 runuser -u "$user" -- env DBUS_SESSION_BUS_ADDRESS="unix:path=$bus" \
+        notify-send -a pacman "$title" "$body" >/dev/null 2>&1
+done
+exit 0

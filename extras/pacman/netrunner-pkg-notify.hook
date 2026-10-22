@@ -1,0 +1,10 @@
+[Trigger]
+Operation = Install
+Type = Package
+Target = *
+
+[Action]
+Description = Netrunner: notify the desktop about new packages
+When = PostTransaction
+Exec = /usr/local/bin/netrunner-pkg-notify
+NeedsTargets

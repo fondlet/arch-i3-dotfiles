@@ -19,7 +19,7 @@ esac
 
 lvl=$(brightnessctl -m -d "$DEV" | awk -F, '{gsub("%","",$4); print $4}')
 
-# Nerd Font glyphs (md-brightness_5/6/7); acid-yellow bar like the volume OSD
+# Nerd Font glyphs (md-brightness_5/6/7); accent bar like the volume OSD
 if (( lvl < 34 )); then
     icon=$'\U000F00DE'
 elif (( lvl < 67 )); then
@@ -27,7 +27,9 @@ elif (( lvl < 67 )); then
 else
     icon=$'\U000F00E0'
 fi
-color="#D0ED57"
+pal="${XDG_CONFIG_HOME:-$HOME/.config}/netrunner/current/colors.sh"
+[[ -r $pal ]] && . "$pal"
+color=${NR_ACCENT:-#D0ED57}
 
 dunstify -a brightness -u normal -t 1500 \
     -h string:x-dunst-stack-tag:brightness \

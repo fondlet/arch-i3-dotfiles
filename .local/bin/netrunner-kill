@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Kill mode: click a window and the process behind it gets SIGTERM, then SIGKILL
+# if it is still alive two seconds later. Click the desktop to abort.
+tag=(-a killmode -h string:x-dunst-stack-tag:killmode)
+
+dunstify "${tag[@]}" -u critical "TARGET SELECT" "click a window to flatline it // click the desktop to abort"
+
+info=$(xprop _NET_WM_PID WM_CLASS WM_CLIENT_MACHINE 2>/dev/null)
+pid=$(sed -n 's/^_NET_WM_PID(CARDINAL) = \([0-9]\+\)$/\1/p' <<<"$info")
+class=$(sed -n 's/^WM_CLASS(STRING) = .*, "\(.*\)"$/\1/p' <<<"$info")
+host=$(sed -n 's/^WM_CLIENT_MACHINE(STRING) = "\(.*\)"$/\1/p' <<<"$info")
+
+abort() { dunstify "${tag[@]}" -u normal -t 2000 "$1" "$2"; exit 0; }
+
+[[ -n $pid ]] || abort "NO TARGET" "kill mode disengaged"
+# A PID from a remote X client (ssh -X) belongs to another machine
+[[ -z $host || $host == "$(cat /proc/sys/kernel/hostname)" ]] || abort "OUT OF RANGE" "$class runs on $host"
+# Killing the bar, i3 or this session's own processes would take the desktop down with it
+case $class in
+    i3bar|i3|i3-nagbar) abort "TARGET PROTECTED" "$class is part of the desktop" ;;
+esac
+(( pid != $$ && pid != PPID )) || abort "TARGET PROTECTED" "refusing to kill kill mode"
+
+kill -TERM "$pid" 2>/dev/null || abort "NO EFFECT" "$class ($pid) is not yours to kill"
+for _ in 1 2 3 4; do
+    kill -0 "$pid" 2>/dev/null || break
+    sleep 0.5
+done
+kill -0 "$pid" 2>/dev/null && kill -KILL "$pid" 2>/dev/null
+
+dunstify "${tag[@]}" -u critical -t 2500 "FLATLINED" "${class:-unknown} // pid $pid"

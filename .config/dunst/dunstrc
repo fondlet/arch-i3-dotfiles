@@ -1,4 +1,6 @@
-# Netrunner theme (Cyberpunk 2077 breach protocol), matching i3, rofi and kitty
+# Netrunner theme (Cyberpunk 2077 breach protocol), matching i3, rofi and kitty.
+# Layout lives here. Colours, formats and the per-app rules (volume, brightness,
+# pacman, kill mode) are rendered by netrunner-theme into dunstrc.d/50-netrunner.conf.
 
 [global]
     font = Iosevka Nerd Font 11
@@ -10,12 +12,8 @@
     text_icon_padding = 12
     gap_size = 8
     frame_width = 1
-    frame_color = "#D0ED57"
     corner_radius = 0
     separator_color = frame
-    background = "#0A0B10"
-    foreground = "#D0ED57"
-    highlight = "#D0ED57"
     progress_bar_height = 6
     progress_bar_frame_width = 1
     progress_bar_corner_radius = 0
@@ -25,8 +23,6 @@
     min_icon_size = 0
     max_icon_size = 40
     markup = full
-    # Small olive app tag above the summary, like the panel captions in the HUD
-    format = "<span size='small' foreground='#6B7A2E'>// %a</span>\n<b>%s</b>\n<span foreground='#C8D49A'>%b</span>"
     alignment = left
     ellipsize = end
     show_age_threshold = 60
@@ -34,33 +30,10 @@
     mouse_right_click = close_all
 
 [urgency_low]
-    background = "#0A0B10"
-    foreground = "#8F9C5A"
-    frame_color = "#2C3318"
-    highlight = "#6B7A2E"
     timeout = 5
 
 [urgency_normal]
-    background = "#0A0B10"
-    foreground = "#D0ED57"
-    frame_color = "#D0ED57"
     timeout = 8
 
 [urgency_critical]
-    background = "#1A070C"
-    foreground = "#FF2A4D"
-    frame_color = "#FF2A4D"
-    highlight = "#FF2A4D"
-    format = "<span size='small' foreground='#FF2A4D'>// ALERT :: %a</span>\n<b>%s</b>\n<span foreground='#FFB3BF'>%b</span>"
     timeout = 0
-
-# Volume and brightness OSDs (sent by ~/.local/bin/volume-osd and brightness-osd)
-[volume]
-    appname = volume
-    format = "<span size='small' foreground='#6B7A2E'>// SYS.AUDIO_OUT</span>\n<b>%s</b>  <span foreground='#5EF6FF'>%b</span>"
-    history_ignore = yes
-
-[brightness]
-    appname = brightness
-    format = "<span size='small' foreground='#6B7A2E'>// SYS.DISPLAY</span>\n<b>%s</b>  <span foreground='#5EF6FF'>%b</span>"
-    history_ignore = yes

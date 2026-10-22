@@ -1,5 +1,6 @@
 // Netrunner theme: Cyberpunk 2077 breach-protocol look, shared with i3,
-// i3blocks, dunst, kitty and the lock screen.
+// i3blocks, dunst, kitty and the lock screen. The colours (@bg, @accent, @hi...)
+// come from the active palette, imported at the bottom.
 
 configuration {
     modes: "drun,run,window";
@@ -13,24 +14,16 @@ configuration {
 }
 
 * {
-    bg:          #0A0B10;
-    bg-panel:    #10131A;
-    bg-row:      #1F2430;
-    yellow:      #D0ED57;
-    yellow-dim:  #6B7A2E;
-    yellow-dark: #2C3318;
-    cyan:        #5EF6FF;
-    red:         #FF2A4D;
     transparent: #00000000;
 
     background-color: @transparent;
-    text-color:       @yellow;
+    text-color:       @accent;
 }
 
 window {
     background-color: @bg;
     border:           1px;
-    border-color:     @yellow;
+    border-color:     @accent;
     border-radius:    0;
     width:            620px;
     padding:          0;
@@ -41,11 +34,11 @@ mainbox {
     spacing:  0;
 }
 
-// Solid yellow strip, like the CODE MATRIX / SEQUENCE panel titles
+// Solid accent strip, like the CODE MATRIX / SEQUENCE panel titles
 header {
     orientation:      horizontal;
     children:         [textbox-title, textbox-tag];
-    background-color: @yellow;
+    background-color: @accent;
     padding:          6px 14px;
     expand:           false;
 }
@@ -76,32 +69,32 @@ inputbar {
     children:         [prompt, textbox-sep, entry, num-filtered-rows];
     background-color: @bg-panel;
     border:           1px;
-    border-color:     @yellow-dim;
+    border-color:     @accent-dim;
     padding:          8px 12px;
     spacing:          10px;
 }
 
 prompt {
     font:       "Iosevka Nerd Font Bold 12";
-    text-color: @yellow;
+    text-color: @accent;
 }
 
 textbox-sep {
     expand:     false;
     content:    "▸";
-    text-color: @yellow-dim;
+    text-color: @accent-dim;
 }
 
 entry {
-    text-color:        @yellow;
-    cursor-color:      @cyan;
+    text-color:        @accent;
+    cursor-color:      @hi;
     cursor-width:      8px;
     placeholder:       "ENTER SEQUENCE...";
-    placeholder-color: @yellow-dim;
+    placeholder-color: @accent-dim;
 }
 
 num-filtered-rows {
-    text-color: @yellow-dim;
+    text-color: @accent-dim;
     font:       "Iosevka Nerd Font 10";
 }
 
@@ -112,15 +105,15 @@ mode-switcher {
 button {
     padding:      3px 10px;
     border:       1px;
-    border-color: @yellow-dark;
-    text-color:   @yellow-dim;
+    border-color: @accent-dark;
+    text-color:   @accent-dim;
     font:         "Iosevka Nerd Font 10";
 }
 
 button selected {
-    background-color: @yellow-dark;
-    border-color:     @yellow;
-    text-color:       @yellow;
+    background-color: @accent-dark;
+    border-color:     @accent;
+    text-color:       @accent;
 }
 
 listview {
@@ -130,7 +123,7 @@ listview {
     scrollbar:    true;
     fixed-height: true;
     border:       1px 0 0 0;
-    border-color: @yellow-dark;
+    border-color: @accent-dark;
     padding:      8px 0 0 0;
 }
 
@@ -139,37 +132,37 @@ element {
     spacing:      12px;
     border:       0 0 0 3px;
     border-color: @transparent;
-    text-color:   @yellow;
+    text-color:   @accent;
 }
 
 element normal.normal,
 element alternate.normal {
     background-color: @transparent;
-    text-color:       @yellow;
+    text-color:       @accent;
 }
 
-// Selected row: the grey-blue band from the code matrix, with a yellow tick
+// Selected row: the grey-blue band from the code matrix, with an accent tick
 element selected.normal {
     background-color: @bg-row;
-    border-color:     @yellow;
-    text-color:       @yellow;
+    border-color:     @accent;
+    text-color:       @accent;
 }
 
 element normal.active,
 element alternate.active {
-    text-color: @cyan;
+    text-color: @hi;
 }
 
 element selected.active {
     background-color: @bg-row;
-    border-color:     @cyan;
-    text-color:       @cyan;
+    border-color:     @hi;
+    text-color:       @hi;
 }
 
 element normal.urgent,
 element alternate.urgent,
 element selected.urgent {
-    text-color: @red;
+    text-color: @alert;
 }
 
 element-icon {
@@ -178,21 +171,20 @@ element-icon {
 
 element-text {
     text-color:     inherit;
-    highlight:      bold #5EF6FF;
     vertical-align: 0.5;
 }
 
 scrollbar {
-    handle-color:     @yellow;
+    handle-color:     @accent;
     handle-width:     3px;
-    background-color: @yellow-dark;
+    background-color: @accent-dark;
 }
 
 footer {
     orientation:  horizontal;
     children:     [textbox-nav, textbox-run, textbox-mode, textbox-close];
     border:       1px 0 0 0;
-    border-color: @yellow-dark;
+    border-color: @accent-dark;
     padding:      7px 14px;
     spacing:      18px;
     expand:       false;
@@ -200,7 +192,7 @@ footer {
 
 textbox-nav, textbox-run, textbox-mode, textbox-close {
     font:       "Iosevka Nerd Font 9";
-    text-color: @yellow-dim;
+    text-color: @accent-dim;
     expand:     false;
 }
 
@@ -208,3 +200,5 @@ textbox-nav   { content: "[↑↓] NAVIGATE"; }
 textbox-run   { content: "[⏎] EXECUTE"; }
 textbox-mode  { content: "[CTRL+TAB] MODE"; }
 textbox-close { content: "[ESC] CLOSE"; }
+
+@import "~/.config/netrunner/current/rofi.rasi"

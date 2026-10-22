@@ -13,10 +13,13 @@ esac
 out=$(wpctl get-volume "$SINK")             # e.g. "Volume: 0.45 [MUTED]"
 vol=$(awk '{printf "%d", $2 * 100 + 0.5}' <<<"$out")
 
-# Nerd Font glyphs; acid-yellow bar normally, olive bar + border when muted
-color="#D0ED57"
+# Nerd Font glyphs; accent bar normally, dim bar + border when muted.
+# Colours from the active palette (netrunner-theme).
+pal="${XDG_CONFIG_HOME:-$HOME/.config}/netrunner/current/colors.sh"
+[[ -r $pal ]] && . "$pal"
+color=${NR_ACCENT:-#D0ED57}
 if [[ $out == *MUTED* ]]; then
-    icon=$'\U000F075F'; text="MUTED"; color="#6B7A2E"
+    icon=$'\U000F075F'; text="MUTED"; color=${NR_ACCENT_DIM:-#6B7A2E}
 elif (( vol == 0 )); then
     icon=$'\U000F0581'; text="VOLUME"
 elif (( vol < 34 )); then

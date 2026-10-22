@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+# Switch the desktop palette. Renders ~/.config/netrunner/themes/<name>.sh through
+# the templates next to it into files that i3, i3blocks, kitty, rofi, dunst, GTK and
+# the lock screen include, then reloads whatever is running.
+# Usage: netrunner-theme            pick a palette with rofi
+#        netrunner-theme <name>     switch to that palette
+#        netrunner-theme --render   re-render the current palette, no reloads (install.sh)
+#        netrunner-theme --list
+set -euo pipefail
+
+conf=${XDG_CONFIG_HOME:-$HOME/.config}
+themes=$conf/netrunner/themes
+tpl=$conf/netrunner/templates
+out=$conf/netrunner/current
+
+list() { for f in "$themes"/*.sh; do basename "$f" .sh; done; }
+
+reload=1
+case "${1:-}" in
+    --list)   list; exit 0 ;;
+    --render) reload=0; name=$(cat "$out/name" 2>/dev/null || echo netrunner) ;;
+    "")       name=$(list | rofi -dmenu -no-custom -p "PALETTE" \
+                  -theme-str 'textbox-title { content: "//  PALETTE SELECT"; }') || exit 0 ;;
+    *)        name=$1 ;;
+esac
+
+if [[ ! -f $themes/$name.sh ]]; then
+    echo "netrunner-theme: no palette '$name' (have: $(list | paste -sd ' '))" >&2
+    exit 1
+fi
+
+# shellcheck source=/dev/null
+. "$themes/$name.sh"
+NR_THEME=$name
+
+# kitty's 16 ANSI colours arrive as one list; split them into @NR_C0@..@NR_C15@
+read -r -d '' -a term <<<"$NR_TERM_COLORS" || true
+if (( ${#term[@]} != 16 )); then
+    echo "netrunner-theme: $name.sh needs 16 NR_TERM_COLORS, has ${#term[@]}" >&2
+    exit 1
+fi
+for i in "${!term[@]}"; do printf -v "NR_C$i" '%s' "${term[i]}"; done
+
+# templates/<file> -> <dest>, replacing every @NR_VAR@ token
+render() {
+    local v args=()
+    for v in $(compgen -v NR_); do
+        [[ $v == NR_TERM_COLORS ]] && continue
+        args+=(-e "s|@$v@|${!v}|g")
+    done
+    mkdir -p "$(dirname "$2")"
+    sed "${args[@]}" "$tpl/$1" >"$2.tmp"
+    if grep -o '@NR_[A-Z0-9_]*@' "$2.tmp" | head -n1 | grep -q .; then
+        echo "netrunner-theme: unfilled token in $tpl/$1: $(grep -o '@NR_[A-Z0-9_]*@' "$2.tmp" | head -n1)" >&2
+        rm -f "$2.tmp"
+        exit 1
+    fi
+    mv "$2.tmp" "$2"
+}
+
+# GTK reads ~/.config/gtk-*/gtk.css directly. Move a hand-written one aside once
+# instead of overwriting it.
+render_gtk() {
+    local dest=$conf/$1/gtk.css
+    if [[ -e $dest ]] && ! head -n1 "$dest" | grep -q netrunner-theme; then
+        mv "$dest" "$dest.pre-netrunner"
+        echo "netrunner-theme: moved your $dest to $dest.pre-netrunner"
+    fi
+    render gtk.css "$dest"
+}
+
+render i3.conf        "$out/i3.conf"
+render i3blocks.conf  "$out/i3blocks.conf"
+render kitty.conf     "$out/kitty.conf"
+render rofi.rasi      "$out/rofi.rasi"
+render dunst.conf     "$conf/dunst/dunstrc.d/50-netrunner.conf"
+render_gtk gtk-3.0
+render_gtk gtk-4.0
+cp "$themes/$name.sh" "$out/colors.sh"
+echo "$name" >"$out/name"
+
+# libadwaita apps ignore settings.ini and ask the portal for a colour scheme
+if command -v gsettings >/dev/null; then
+    gsettings set org.gnome.desktop.interface color-scheme prefer-dark 2>/dev/null || true
+    gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark 2>/dev/null || true
+fi
+
+(( reload )) || exit 0
+
+i3-msg -q reload 2>/dev/null || true       # also restarts i3bar and i3blocks
+dunstctl reload 2>/dev/null || true
+pkill -USR1 -x kitty 2>/dev/null || true   # kitty re-reads kitty.conf on SIGUSR1
+
+dunstify -a netrunner -t 3000 -h string:x-dunst-stack-tag:netrunner \
+    "PALETTE LOADED" "$NR_NAME" 2>/dev/null || true

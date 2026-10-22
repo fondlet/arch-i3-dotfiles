@@ -62,6 +62,12 @@ bindsym $mod+d exec --no-startup-id rofi -show drun
 # lock the screen (type your password to unlock)
 bindsym $mod+o exec --no-startup-id ~/.config/i3/lock.sh
 
+# switch the colour palette (rofi picker)
+bindsym $mod+t exec --no-startup-id ~/.local/bin/netrunner-theme
+
+# kill mode: click a window to kill the process behind it
+bindsym $mod+Shift+x exec --no-startup-id ~/.local/bin/netrunner-kill
+
 # change focus
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down
@@ -177,16 +183,19 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Netrunner theme: window frames styled after the Cyberpunk 2077 breach
-# protocol HUD. The focused title bar is a solid acid-yellow strip like the
-# CODE MATRIX panel header; everything else sinks into olive/navy.
-# class                   border  backgr. text    indicator child_border
-client.focused            #D0ED57 #D0ED57 #0A0B10 #5EF6FF   #D0ED57
-client.focused_inactive   #2C3318 #10131A #6B7A2E #2C3318   #2C3318
-client.unfocused          #1F2430 #0A0B10 #6B7A2E #1F2430   #1F2430
-client.urgent             #FF2A4D #FF2A4D #0A0B10 #FF2A4D   #FF2A4D
-client.placeholder        #0A0B10 #0A0B10 #6B7A2E #0A0B10   #0A0B10
-client.background         #0A0B10
+# Window frames styled after the Cyberpunk 2077 breach protocol HUD. The
+# focused title bar is a solid accent strip like the CODE MATRIX panel header;
+# everything else sinks into the dim tones. Colours come from the active
+# palette ($mod+t, or netrunner-theme <name>), rendered into this include.
+include ~/.config/netrunner/current/i3.conf
+
+# class                   border          backgr.         text            indicator       child_border
+client.focused            $nr_accent      $nr_accent      $nr_bg          $nr_hi          $nr_accent
+client.focused_inactive   $nr_accent_dark $nr_bg_panel    $nr_accent_dim  $nr_accent_dark $nr_accent_dark
+client.unfocused          $nr_bg_row      $nr_bg          $nr_accent_dim  $nr_bg_row      $nr_bg_row
+client.urgent             $nr_alert       $nr_alert       $nr_bg          $nr_alert       $nr_alert
+client.placeholder        $nr_bg          $nr_bg          $nr_accent_dim  $nr_bg          $nr_bg
+client.background         $nr_bg
 
 default_border normal 1
 default_floating_border normal 1
@@ -196,10 +205,10 @@ for_window [all] title_window_icon off
 gaps inner 6
 gaps outer 2
 
-# Start i3bar to display a workspace bar (i3blocks, matching the netrunner
-# theme in ~/.config/i3blocks/config and rofi)
+# Start i3bar to display a workspace bar. netrunner-theme renders the i3blocks
+# config from ~/.config/netrunner/templates/i3blocks.conf.
 bar {
-        status_command i3blocks
+        status_command i3blocks -c ~/.config/netrunner/current/i3blocks.conf
         position bottom
         tray_output primary
         font pango:Iosevka Nerd Font Bold 10
@@ -208,15 +217,15 @@ bar {
         separator_symbol " ⁄⁄ "
 
         colors {
-                background #0A0B10
-                statusline #D0ED57
-                separator  #2C3318
+                background $nr_bg
+                statusline $nr_accent
+                separator  $nr_accent_dark
 
-                focused_workspace  #D0ED57 #D0ED57 #0A0B10
-                active_workspace   #6B7A2E #10131A #D0ED57
-                inactive_workspace #0A0B10 #0A0B10 #6B7A2E
-                urgent_workspace   #FF2A4D #FF2A4D #0A0B10
-                binding_mode       #5EF6FF #0A0B10 #5EF6FF
+                focused_workspace  $nr_accent     $nr_accent   $nr_bg
+                active_workspace   $nr_accent_dim $nr_bg_panel $nr_accent
+                inactive_workspace $nr_bg         $nr_bg       $nr_accent_dim
+                urgent_workspace   $nr_alert      $nr_alert    $nr_bg
+                binding_mode       $nr_hi         $nr_bg       $nr_hi
         }
 }
 
